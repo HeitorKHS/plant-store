@@ -30,10 +30,10 @@ export default function Header(){
                 {/*Nav*/}
                 <div className="flex gap-20 py-5 justify-center text-lg">
                     <Link className="hover:text-primary/50" href="/">Home</Link>
-                    <Link className="hover:text-primary/50" href="/products/plants">Plants</Link>
-                    <Link className="hover:text-primary/50" href="/products/substrate">Substrate</Link>
-                    <Link className="hover:text-primary/50" href="/products/fertilizer">Fertilizer</Link>
-                    <Link className="hover:text-primary/50" href="/products/tool">Tool</Link>
+                    <Link className="hover:text-primary/50" href="/category/plant">Plants</Link>
+                    <Link className="hover:text-primary/50" href="/category/substrate">Substrate</Link>
+                    <Link className="hover:text-primary/50" href="/category/fertilizer">Fertilizer</Link>
+                    <Link className="hover:text-primary/50" href="/category/tool">Tool</Link>
                 </div>
             </div>
 
@@ -61,10 +61,10 @@ export default function Header(){
                     </div>
                     <div className="flex flex-col text-center text-3xl">
                         <Link className="w-full border-b-2 p-3" href="/">Home</Link>
-                        <Link className="w-full border-b-2 p-3" href="/products/plants">Plants</Link>
-                        <Link className="w-full border-b-2 p-3" href="/products/substrate">Substrate</Link>
-                        <Link className="w-full border-b-2 p-3" href="/products/fertilizer">Fertilizer</Link>
-                        <Link className="w-full border-b-2 p-3" href="/products/tool">Tool</Link>
+                        <Link className="w-full border-b-2 p-3" href="/category/plant">Plants</Link>
+                        <Link className="w-full border-b-2 p-3" href="/category/substrate">Substrate</Link>
+                        <Link className="w-full border-b-2 p-3" href="/category/fertilizer">Fertilizer</Link>
+                        <Link className="w-full border-b-2 p-3" href="/category/tool">Tool</Link>
                     </div>
                 </div>
             </div>
