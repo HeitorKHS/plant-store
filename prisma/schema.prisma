@@ -17,6 +17,7 @@ model Product{
   description String
   price Float
   type String
+  type_slug String
   category String
   stock Int
   quantity_sold Int @default(0)

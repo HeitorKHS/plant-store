@@ -37,7 +37,7 @@ export default function Home(){
       <div>
 
         {/*Hero*/}
-        <div className="container mt-20">
+        <div className="container mt-10">
           <Image className="hidden md:block rounded-lg" src="/assets/big-hero.png" alt="big-hero" layout="responsive" width={1920} height={650}/>
           <Image className="block md:hidden rounded-lg" src="/assets/small-hero.png" alt="small-hero" layout="responsive" width={950} height={1200}/>
         </div>
