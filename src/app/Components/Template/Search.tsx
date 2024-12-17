@@ -8,8 +8,14 @@ export default function Search(){
     const router = useRouter();
 
     function clickEnter(e: React.KeyboardEvent){
-        if(e.key === 'Enter'){
+        if(e.key === 'Enter' && search.trim() !== ""){
             router.push(`/search?search=${search}`); 
+        }
+    }
+
+    function clickSearch(){
+        if(search.trim() !== ""){
+            router.push(`/search?search=${search}`);
         }
     }
 
@@ -21,7 +27,7 @@ export default function Search(){
                 onChange={(e)=>setSearch(e.target.value)}
                 onKeyDown={clickEnter}
             />
-            <IconSearch onClick={()=>router.push(`/search?search=${search}`)} className="absolute inset-y-0 ml-3 mt-3 cursor-pointer" size={20}/>
+            <IconSearch onClick={clickSearch} className="absolute inset-y-0 ml-3 mt-3 cursor-pointer" size={20}/>
         </div>
 
     )

@@ -32,11 +32,7 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                             <div className="text-primary text-4xl font-bold">
                                 <h1>{product.name}</h1>
                             </div>
-                            <div className="text-xl font-bold">
-                                <Link className="hover:underline hover:text-secondary" href={`/category/${product.category.toLowerCase()}`}>{product.category}</Link>
-                                <span> / </span>
-                                <Link className="hover:underline hover:text-secondary" href="/">{product.type}</Link>
-                            </div>
+                            <Link className="hover:underline hover:text-secondary text-xl font-bold" href={`/category/${product.category.toLowerCase()}`}>{product.category}</Link>
                             <div><span className="text-lg font-semibold">Stock:</span> {product.stock} Un.</div>          
                             <span className="text-3xl font-bold text-primary">$ {product.price.toFixed(2)}</span>
                             <div className="flex flex-col gap-5">

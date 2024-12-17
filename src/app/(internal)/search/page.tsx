@@ -1,22 +1,22 @@
 'use client'
 
-import { use } from "react"; //Resolve asynchronous promises
 import { useSearchParams } from "next/navigation";
-import useCategory from "@/app/data/hooks/category/useCategory";
 import { IconBaselineDensityMedium, IconSquareFilled, IconSquare } from "@tabler/icons-react";
-
 import ListProductItem from "@/app/components/home/ListProductItem";
+import useSearch from "@/app/data/hooks/search/useSearch";
+
 import Layout from "@/app/components/template/Layout";
 import Navigation from "@/app/components/navigation/Navigation";
 
-export default function page({ params }: { params: Promise<{ slug: string }> }){
+export default function page(){
 
-    const { slug } =  use(params);
     const searchParams = useSearchParams();
+    const search = String(searchParams.get('search')); 
     const page = Number(searchParams.get('page') || 1);
     const order = String(searchParams.get('order') || '' );
     const type = String(searchParams.get('type') || '' )
-    const { products, total, totalPages, filter, typesArray, changePage, orderBy, selectType, openFilter } = useCategory({slug:slug, page: page, order: order, type: type});
+
+    const { products, total, totalPages, filter, typesArray, changePage, orderBy, selectType, openFilter } = useSearch({search: search, page: page, order: order, type:type});
 
     return(
 
@@ -44,8 +44,8 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                                 </div>
                             </div>
 
-                            <div className="flex relative">
-                                <div className={`${filter ? 'block' : 'hidden'} p-5 flex flex-col gap-5 items-center absolute md:static z-10 bg-white`}>
+                            <div className="flex">
+                                <div className={`${filter ? 'block' : 'hidden'} p-5 flex flex-col gap-5 items-center`}>
                                     <h1 className="text-xl font-bold">Types</h1>
                                     <ul className="space-y-3">
                                         { 
@@ -73,12 +73,12 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                     ):(
                         <div className="text-black text-center space-y-10">
                             <h1 className="text-7xl font-bold">"Sorry"</h1>
-                            <p className="text-2xl font-semibold">The page you are looking for was not found.</p>
+                            <p className="text-2xl font-semibold">Product not found.</p>
                         </div>
                     )
                 }
             </div>
-        </Layout>    
+        </Layout>
 
     )
 

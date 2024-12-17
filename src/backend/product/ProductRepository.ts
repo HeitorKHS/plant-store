@@ -41,14 +41,12 @@ export default class ProductRepository{
 
         const orderBy:any = getOrderBy(order);
 
-        if(orderBy === null || page <= 0) return null
+        if(orderBy === null || page <= 0) return null;
 
         const products = await prisma.product.findMany({
             where: {
                 AND:[
-                    {category: {
-                        contains: slug,
-                    }},
+                    {category: {contains: slug}},
                     type ? { type_slug: type } : {},
                 ],
             },
@@ -57,40 +55,101 @@ export default class ProductRepository{
             orderBy: orderBy,
         });
 
-        const total = await prisma.product.count({
-            where: {
-                AND:[
-                    {category: {
+        if(products){
+
+            const total = await prisma.product.count({
+                where: {
+                    AND:[
+                            {category: {contains: slug}},
+                            type ? { type_slug: type } : {},
+                        ],
+                    },
+                });
+            
+            const totalPages = Math.ceil(total / 6);
+            
+            if(page > totalPages)  return null;
+
+            const types = await prisma.product.findMany({
+                where: {
+                    category: {
                         contains: slug,
-                    }},
+                    },
+                },
+                select:{
+                    type: true,
+                    type_slug: true,
+                },
+                distinct: ['type', 'type_slug'],
+            });
+    
+            return{
+                products,
+                total,
+                totalPages,
+                types,
+            }
+        }
+
+        return null;
+       
+    }
+
+    static async getSearch(search: string, page: number, order: string, type: string){
+
+        const orderBy:any = getOrderBy(order);
+
+        if(orderBy === null || page <= 0) return null
+
+        const products = await prisma.product.findMany({
+            where:{
+                AND:[
+                    {name: {contains: search}},
                     type ? { type_slug: type } : {},
                 ],
             },
+            skip: (page-1) * 6,
+            take: 6,
+            orderBy: orderBy,
         });
 
-        const totalPages = Math.ceil(total / 6);
+        if(products){
 
-        if(page > totalPages)  return null
+            const total = await prisma.product.count({
+                where: {
+                    AND:[
+                            {name: {contains: search}},
+                            type ? { type_slug: type } : {},
+                        ],
+                    },
+                });
+            
+            const totalPages = Math.ceil(total / 6);
+            
+            if(page > totalPages)  return null;
 
-        const types = await prisma.product.findMany({
-            where: {
-                category: {
-                    contains: slug,
+            const types = await prisma.product.findMany({
+                where: {
+                    name: {
+                        contains: search,
+                    },
                 },
-            },
-            select:{
-                type: true,
-                type_slug: true,
-            },
-            distinct: ['type', 'type_slug'],
-        });
-
-        return{
-            products,
-            total,
-            totalPages,
-            types,
+                select:{
+                    type: true,
+                    type_slug: true,
+                },
+                distinct: ['type', 'type_slug'],
+            });
+    
+            return{
+                products,
+                total,
+                totalPages,
+                types,
+            }
         }
+
+        return null;
 
     }
 

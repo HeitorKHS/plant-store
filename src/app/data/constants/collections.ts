@@ -1,17 +1,17 @@
 const collections = [
     {
       name: "succulent",
-      href: "/collection/succulent",
+      href: "/search?search=succulent",
       src: "/assets/succulent.png",
     },
     {
       name: "orchid",
-      href: "/collection/orchid",
+      href: "/search?search=orchid",
       src: "/assets/orchid.png",
     },
     {
       name: "bonsai",
-      href: "/collection/bonsai",
+      href: "/search?search=bonsai",
       src: "/assets/bonsai.png",
     },
 ];

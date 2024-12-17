@@ -1,16 +1,16 @@
-import Backend from "@/backend";
 import { useEffect, useState } from "react";
+import Backend from "@/backend";
 import { Product } from "@/core/models/Product";
 import { useRouter } from "next/navigation";
 
-export interface useCategoryProps{
-    slug: string,
+export interface useSearchProps{
+    search: string,
     page: number,
     order: string,
     type: string,
 }
 
-export default function useCategory( props: useCategoryProps ){
+export default function useSearch(props: useSearchProps){
 
     const router = useRouter();
 
@@ -21,11 +21,11 @@ export default function useCategory( props: useCategoryProps ){
     const [typesArray, setTypesArray] = useState<{type:string, type_slug: string}[]>([]);
 
     useEffect(()=>{
-        getProducts();
-    },[props.slug, props.page, props.order, props.type])
+        getSearch();
+    },[props.search, props.page, props.order, props.type])
 
-    async function getProducts(){
-        const fetchedProducts = await Backend.product.getProducts(props.slug, props.page, props.order, props.type);
+    async function getSearch(){
+        const fetchedProducts = await Backend.product.getSearch(props.search, props.page, props.order, props.type);
         if(fetchedProducts){
             setProducts(fetchedProducts.products);
             setTotal(fetchedProducts.total);
@@ -54,9 +54,9 @@ export default function useCategory( props: useCategoryProps ){
         },
         selectType:(type: string)=>{
             if(type === props.type){
-                router.push(`/category/${props.slug}`);
+                router.push(`/search?search=${props.search}`);
             } else{
-                router.push(`/category/${props.slug}?type=${type}`);
+                router.push(`/search?search=${props.search}&type=${type}`);
             }
         },
         openFilter:()=>setFilter(!filter), 
