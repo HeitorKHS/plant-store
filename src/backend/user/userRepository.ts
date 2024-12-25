@@ -31,10 +31,33 @@ export default class userRepository{
             const isMatch = await bcrypt.compare(password, user.password);
 
             if(isMatch){
-                await authService.encrypt({id: user.id, name: user.name, email: user.name});
+                await authService.encrypt({id: user.id, name: user.name, email: user.email});
             }
 
         }
+
+    }
+
+    static async logoutUser(){
+        await authService.logout();
+    }
+
+    static async getUser(){
+
+        const isVallid = await authService.isSessionValid();
+
+        if(isVallid){
+
+            const {id, name, email}:any = await authService.getUser();
+            return{
+                id,
+                name,
+                email
+            }
+
+        }
+
+        return null
 
     }
 

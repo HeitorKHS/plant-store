@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Backend from "@/backend";
-import { create } from "domain";
+import { User } from "@/core/models/User";
 
 export default function useUser(){
 
@@ -9,8 +9,14 @@ export default function useUser(){
     const [name, setName] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>(""); 
+    const [user, setUser] = useState<User|null>(null);
+
+    useEffect(()=>{
+        Backend.user.getUser().then(setUser);
+    },[])
 
     return{
+        user,
         name,
         setName,
         email,
@@ -25,6 +31,11 @@ export default function useUser(){
         loginUser: async (e: React.FormEvent) => {
             e.preventDefault();
             await Backend.user.loginUser(email, password);
+            router.push("/");
+        },
+        logout: async () => {
+            await Backend.user.logoutUser();
+            setUser(null);
             router.push("/");
         }
     }

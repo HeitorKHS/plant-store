@@ -36,6 +36,23 @@ export default class authService{
         return false
     }
 
+    static async getUser(){
+
+        const sessionCookie = (await cookies()).get('session');
+
+        if (sessionCookie){
+            const { value } = sessionCookie;
+            const {id, name, email} = await this.decrypt(value);
+            return {
+                id,
+                name,
+                email
+            };
+        }
+
+        return null
+    }
+
     static async logout(){
         return (await cookies()).delete('session');
     }

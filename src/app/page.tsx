@@ -10,7 +10,7 @@ import Backend from "@/backend";
 import Layout from "./components/template/Layout";
 import InfoCard from "./components/home/InfoCard";
 import Collection from "./components/home/Collection";
-import ListProduct from "./components/home/ListProduct";
+import ListProduct from "./components/product/ListProduct";
 import BannerItem from "./components/home/BannerItem";
 
 import collections from "./data/constants/collections";

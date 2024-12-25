@@ -17,7 +17,7 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
 
     const { slug } =  use(params);
 
-    const {product} = useProduct({slug:slug});
+    const {product, inFavorite, removeFavorite, addFavorite} = useProduct({slug:slug});
 
     return(
 
@@ -36,15 +36,19 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                             <div><span className="text-lg font-semibold">Stock:</span> {product.stock} Un.</div>          
                             <span className="text-3xl font-bold text-primary">$ {product.price.toFixed(2)}</span>
                             <div className="flex flex-col gap-5">
-                                <button className="w-full py-2 px-5 border border-black rounded-full font-semibold text-white bg-black">Add to Cart</button>
-                                <button className="w-full py-2 px-5 border border-black rounded-full font-semibold flex justify-center">Add to favorites <IconHeart/></button>    
+                                <button className="w-full py-2 px-5 border border-black rounded-full font-semibold text-white bg-black">Add to Cart</button>    
+                                {   inFavorite ? (
+                                        <button onClick={()=>removeFavorite(inFavorite)} className="w-full flex justify-center py-2 px-5 border border-black rounded-full font-semibold">Remove to favorites</button>
+                                    ):(
+                                        <button onClick={()=>addFavorite(product.id)} className="w-full flex justify-center py-2 px-5 border border-black rounded-full font-semibold">Add to favorites <IconHeart/></button>
+                                    )
+                                } 
                             </div>
                         </div>
                     </div>
                 ):(
                     <div className="text-black text-center space-y-10">
-                        <h1 className="text-7xl font-bold">"Sorry"</h1>
-                        <p className="text-2xl font-semibold">Product not found.</p>
+                        <h1 className="text-7xl font-bold">"Loading ..."</h1>
                     </div>
                 )}
             </div>

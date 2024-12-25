@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import useCategory from "@/app/data/hooks/category/useCategory";
 import { IconBaselineDensityMedium, IconSquareFilled, IconSquare } from "@tabler/icons-react";
 
-import ListProductItem from "@/app/components/home/ListProductItem";
+import ListProductItem from "@/app/components/product/ListProductItem";
 import Layout from "@/app/components/template/Layout";
 import Navigation from "@/app/components/navigation/Navigation";
 
@@ -72,8 +72,7 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                         </div>           
                     ):(
                         <div className="text-black text-center space-y-10">
-                            <h1 className="text-7xl font-bold">"Sorry"</h1>
-                            <p className="text-2xl font-semibold">The page you are looking for was not found.</p>
+                            <h1 className="text-7xl font-bold">"Loading ..."</h1>
                         </div>
                     )
                 }

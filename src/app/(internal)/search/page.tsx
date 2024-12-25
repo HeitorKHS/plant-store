@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { IconBaselineDensityMedium, IconSquareFilled, IconSquare } from "@tabler/icons-react";
-import ListProductItem from "@/app/components/home/ListProductItem";
+import ListProductItem from "@/app/components/product/ListProductItem";
 import useSearch from "@/app/data/hooks/search/useSearch";
 
 import Layout from "@/app/components/template/Layout";

@@ -32,9 +32,11 @@ export default class ProductRepository{
 
     static async getProduct(slug: string){
         slug = slug.toLowerCase();
+
         return await prisma.product.findUnique({
             where: { slug },
         });
+
     }
 
     static async getProducts(slug: string, page: number, order: string, type: string){
