@@ -8,6 +8,7 @@ export default function useProduct( {slug} : {slug: string} ){
     const router = useRouter();
 
     const [product, setProduct] = useState<Product>();
+    const [error, setError] = useState<boolean>(false);
     const [inFavorite, setInFavorite] = useState<number|null>();
     const [inCart, setInCart] = useState<number|null>();
 
@@ -20,24 +21,40 @@ export default function useProduct( {slug} : {slug: string} ){
         if(fetchedProduct){
             setProduct(fetchedProduct);
             Backend.favorite.inFavorite(fetchedProduct.id).then(setInFavorite);
+            Backend.cart.inCart(fetchedProduct.id).then(setInCart);
+            setError(false);
         } else {
-            router.push("/not-found")
+            setError(true);
         }
     }
 
     return{
+        error,
         product,
         inFavorite,
+        inCart,
         removeFavorite:(idFavoriteItem: number)=>{
             Backend.favorite.removeProductFavorite(idFavoriteItem);
-            getProduct();
+            setInFavorite(null);
         },
-        addFavorite:(idProduct: number)=>{
-            const response = Backend.favorite.addProductFavorite(idProduct);
-            if(response === null){
-                router.push("/signin")
+        addFavorite: async (idProduct: number)=>{
+            const response = await Backend.favorite.addProductFavorite(idProduct);
+            if(response){
+                setInFavorite(response);
             }else{
-                getProduct();
+                getProduct();router.push("/signin")
+            }
+        },
+        removeCart:(idCartItem: number)=>{
+            Backend.cart.removeProduct(idCartItem);
+            setInCart(null);
+        },
+        addCart: async (idProduct: number)=>{
+            const response = await Backend.cart.addProduct(idProduct);
+            if(response){
+                setInCart(response);
+            }else{
+                getProduct();router.push("/signin")
             }
         },
     }

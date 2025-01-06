@@ -18,6 +18,7 @@ export default class ProductRepository{
 
     static async getTopSelling(){
         return await prisma.product.findMany({
+            where: {stock:{gt: 0}},
             orderBy:{quantity_sold: "desc"},
             take: 8,
         });
@@ -25,6 +26,7 @@ export default class ProductRepository{
 
     static async getNewProduct(){
         return await prisma.product.findMany({
+            where: {stock:{gt: 0}},
             orderBy:{createdAt: "desc"},
             take: 8,
         });

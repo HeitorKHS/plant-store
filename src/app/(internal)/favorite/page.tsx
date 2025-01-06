@@ -3,8 +3,7 @@
 import Layout from "@/app/components/template/Layout"
 import useFavorite from "@/app/data/hooks/favorite/useFavorite";
 import Image from "next/image";
-import Link from "next/link";
-import { IconTrashFilled, IconShoppingCart} from "@tabler/icons-react";
+import { IconTrashFilled} from "@tabler/icons-react";
 
 export default function page(){
 
@@ -26,7 +25,7 @@ export default function page(){
                                     <div className="hidden md:block">
                                         <Image className="rounded-md" src="/assets/plant1.jpg" alt="plant" height={110} width={110}/>
                                     </div>
-                                    <div className="flex flex-col flex-grow gap-3  md:border-r-2 border-gray-500">         
+                                    <div className="flex flex-col flex-grow gap-3 md:border-r-2 border-gray-500">         
                                         <h1 className="text-black text-xl font-semibold">{item.product.name}</h1>
                                         <div className="flex justify-between">
                                             <div>
@@ -45,9 +44,8 @@ export default function page(){
                                                 <p className="text-xl text-primary font-bold">${((item.product.price)*0.90).toFixed(2)}</p>            
                                             </div>
                                         </div>                                     
-                                        <div className="flex flex-row gap-5">
+                                        <div>
                                             <IconTrashFilled onClick={()=>removeProduct(item.id)} className="hover:cursor-pointer" size={35} color="red"/>
-                                            <IconShoppingCart className="hover:cursor-pointer text-primary" size={35}/>
                                         </div>    
                                     </div>
                                 </div>                              

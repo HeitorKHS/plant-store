@@ -40,23 +40,28 @@ export default class favoriteRepository{
     }
 
     static async addProductFavorite(idProduct: number) {
-
         const isValid = await authService.isSessionValid();
     
         if (isValid) {
-
+            
             const { id }: any = await authService.getUser();
-
-            await prisma.favorite.update({
-                where: { userId: id },
-                data: {
-                    favoriteItems: {
-                        create: { productId: idProduct },
-                    },
-                },
+    
+            const userFavorite = await prisma.favorite.findUnique({
+                where: { userId: id }, 
             });
+    
+            if (userFavorite) {
+                const item = await prisma.favoriteItem.create({
+                    data: {
+                        productId: idProduct,
+                        favoriteId: userFavorite.id, 
+                    },
+                });
+                
+                return item.id; 
+            }         
         } else {
-            return null
+            return null;
         }
     }
 

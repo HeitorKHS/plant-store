@@ -10,6 +10,7 @@ export default function useUser(){
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>(""); 
     const [user, setUser] = useState<User|null>(null);
+    const [error, setError] = useState<string|null>(null);
 
     useEffect(()=>{
         Backend.user.getUser().then(setUser);
@@ -23,6 +24,7 @@ export default function useUser(){
         setEmail,
         password,
         setPassword,
+        error,
         createUser: async (e: React.FormEvent) => {
             e.preventDefault();
             await Backend.user.createUser(name, email, password);
@@ -30,8 +32,12 @@ export default function useUser(){
         },
         loginUser: async (e: React.FormEvent) => {
             e.preventDefault();
-            await Backend.user.loginUser(email, password);
-            router.push("/");
+            try {
+                await Backend.user.loginUser(email, password);
+                router.push("/"); 
+            } catch (error: any) {
+                setError(error.message || "Error logging in");
+            }
         },
         logout: async () => {
             await Backend.user.logoutUser();

@@ -13,7 +13,7 @@ export default function Header(){
 
     return(
 
-        <div>
+        <div className="sticky top-0 bg-white z-50">
 
             {/*Desktop*/}
             <div className="hidden lg:block container py-5">

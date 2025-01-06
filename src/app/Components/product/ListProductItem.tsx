@@ -14,10 +14,19 @@ export default function ListProductItem(props: ListProductItemProps){
             <div className="relative h-[300px]">
                 <Image className="rounded-md" src="/assets/plant1.jpg" alt="plant" layout="fill"/>
             </div>
-            <div className="flex flex-col gap-10 pt-2 text-primary ">
-                <span className="text-lg font-semibold">{props.product.name}</span>
-                <span className="text-xl font-bold">$ {(props.product.price.toFixed(2))}</span>
-            </div>
+            {   props.product.stock > 0 ? (    
+                    <div className="flex flex-col gap-10 pt-2 text-primary ">
+                        <span className="text-lg font-semibold">{props.product.name}</span>
+                        <span className="text-xl font-bold">$ {(props.product.price.toFixed(2))}</span>
+                    </div>
+                ):(
+                    <div className="flex flex-col gap-10 pt-2 text-primary ">
+                        <span className="text-lg font-semibold">{props.product.name}</span>
+                        <span className="text-center text-3xl font-bold text-red-600">Sold Out</span>
+                    </div>
+                )
+            }
+
         </Link>
         </div>
 

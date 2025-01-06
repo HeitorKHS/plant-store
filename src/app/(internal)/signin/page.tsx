@@ -7,7 +7,7 @@ import useUser from "@/app/data/hooks/user/useUser";
 
 export default function page(){
 
-    const {email, setEmail, password, setPassword, loginUser} = useUser();
+    const {email, setEmail, password, setPassword, error, loginUser} = useUser();
 
     return(
 
@@ -19,6 +19,7 @@ export default function page(){
                         <form onSubmit={loginUser} className="flex flex-col gap-3">
                             <input value={email} onChange={(e)=>setEmail(e.target.value)} type="email" placeholder="E-mail" className="outline-none border border-gray-300 rounded-xl bg-gray-200 py-1 px-2 placeholder-gray-600"/>
                             <input value={password} onChange={(e)=>setPassword(e.target.value)} type="password" placeholder="Password" className="outline-none border border-gray-300 rounded-xl bg-gray-200 py-1 px-2 placeholder-gray-600"/>
+                            {error && <p className="text-red-500 mt-2 font-semibold">{error}</p>}
                             <Link href={"/"} className="text-gray-500">Forget your password ?</Link>
                             <button type="submit" className="w-1/2 mx-auto py-2 rounded-xl bg-black text-white">Login</button>
                         </form>

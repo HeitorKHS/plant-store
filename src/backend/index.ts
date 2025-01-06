@@ -17,6 +17,15 @@ import removeProductFavorite from "./favorite/removeProductFavorite";
 import inFavorite from "./favorite/inFavorite";
 import addProductFavorite from "./favorite/addProductFavorite";
 
+//Cart
+import getCart from "./cart/getCart";
+import addToCart from "./cart/addToCart";
+import removeToCart from "./cart/removeToCart";
+import removeProduct from "./cart/removeProduct";
+import inCart from "./cart/inCart";
+import addProduct from "./cart/addProduct";
+import checkout from "./cart/checkout";
+
 //Facade
 export default class Backend{
 
@@ -40,6 +49,16 @@ export default class Backend{
         removeProductFavorite,
         inFavorite,
         addProductFavorite,
+    }
+
+    static readonly cart = {
+        getCart,
+        addToCart,
+        removeToCart,
+        removeProduct,
+        inCart,
+        addProduct,
+        checkout,
     }
 
 }

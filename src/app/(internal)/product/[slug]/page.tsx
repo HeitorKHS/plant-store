@@ -8,6 +8,7 @@ import { IconHeart } from "@tabler/icons-react";
 import useProduct from "@/app/data/hooks/product/useProduct";
 
 import Layout from "@/app/components/template/Layout";
+import { notFound } from "next/navigation";
 
 export interface pageProps{
     slug: string,
@@ -17,7 +18,9 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
 
     const { slug } =  use(params);
 
-    const {product, inFavorite, removeFavorite, addFavorite} = useProduct({slug:slug});
+    const {error, product, inFavorite, removeFavorite, addFavorite, inCart, removeCart, addCart} = useProduct({slug:slug});
+
+    if(error) notFound();
 
     return(
 
@@ -36,7 +39,16 @@ export default function page({ params }: { params: Promise<{ slug: string }> }){
                             <div><span className="text-lg font-semibold">Stock:</span> {product.stock} Un.</div>          
                             <span className="text-3xl font-bold text-primary">$ {product.price.toFixed(2)}</span>
                             <div className="flex flex-col gap-5">
-                                <button className="w-full py-2 px-5 border border-black rounded-full font-semibold text-white bg-black">Add to Cart</button>    
+                                {   inCart ? (
+                                        <button onClick={()=>removeCart(inCart)} className="w-full py-2 px-5 border border-black rounded-full font-semibold text-white bg-black">Remove to cart</button> 
+                                    ):(
+                                        product.stock > 0 ? (
+                                            <button onClick={()=>{if(product.stock > 0) addCart(product.id)}} className="w-full py-2 px-5 border border-black rounded-full font-semibold text-white bg-black">Add to Cart</button> 
+                                        ):(
+                                               <span className="text-center text-3xl font-bold text-red-600">Sold Out</span>
+                                        )
+                                    )
+                                }   
                                 {   inFavorite ? (
                                         <button onClick={()=>removeFavorite(inFavorite)} className="w-full flex justify-center py-2 px-5 border border-black rounded-full font-semibold">Remove to favorites</button>
                                     ):(

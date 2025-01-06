@@ -97,7 +97,7 @@ export default function Home(){
         {/*Plant care tips **modify later */}
         <div className="container mt-20">
           <div className="grid md:grid-cols-2 bg-[#ECECEC] rounded-xl">
-            <div className="relative">
+            <div>
               <Image className="rounded-xl max-h-[300px] max-w-[400px]" src="/assets/bg.png" alt="Background Plant" layout="responsive" width={400} height={300} />
             </div>
             <div className="p-10 space-y-5">
