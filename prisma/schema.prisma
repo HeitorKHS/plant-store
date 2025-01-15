@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Product{
+  id Int @id @default(autoincrement())
+  name String
+  slug String @unique 
+  description String
+  price Float
+  type String
+  type_slug String
+  category String
+  stock Int
+  quantity_sold Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favoriteItems FavoriteItem[]
+  cartItems CartItem[]
+}
+
+model User{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique 
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cart Cart? 
+  Favorite Favorite?
+}
+
+model Favorite {
+  id Int @id @default(autoincrement())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+
+  favoriteItems FavoriteItem[]
+}
+
+model Cart {
+  id Int @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+
+  cartItems CartItem[]
+}
+
+model CartItem {
+  id Int @id @default(autoincrement())
+  quantity Int @default(1)  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  cartId Int
+  cart Cart @relation(fields: [cartId], references: [id])
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model FavoriteItem {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  favoriteId Int
+  favorite Favorite @relation(fields: [favoriteId], references: [id])
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
+}

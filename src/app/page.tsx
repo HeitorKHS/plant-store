@@ -1,101 +1,125 @@
+'use client'
+
+import Layout from "./components/template/Layout";
+import InfoCard from "./components/home/InfoCard";
+import Collection from "./components/home/Collection";
+import ListProduct from "./components/product/ListProduct";
+import BannerItem from "./components/home/BannerItem";
+
 import Image from "next/image";
+import { IconPackage, IconTimeDuration30, IconPlant2, IconShieldHalfFilled } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import collections from "./data/constants/collections";
+import care from "./data/constants/care";
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+import { Product } from "@/core/models/Product";
+import Backend from "@/backend";
+
+export default function Page(){
+
+  const [bestProducts, setBestProducts] = useState<Product[]>([]);
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  const [dropdown,setDropdown] = useState<string>("");
+
+  const openDropdown = (index: string) => {
+    setDropdown(dropdown === index ? "" : index);
+  };
+
+
+  useEffect(()=>{
+    Backend.product.getTopSelling().then(setBestProducts);
+    Backend.product.getNewProduct().then(setNewProducts);
+  },[])
+
+  return(
+    
+    <Layout>
+      <div>
+
+        {/*Hero*/}
+        <div className="container mt-10">
+          <Image className="hidden md:block rounded-lg" src="/assets/big-hero.png" alt="big-hero" layout="responsive" width={1920} height={650}/>
+          <Image className="block md:hidden rounded-lg" src="/assets/small-hero.png" alt="small-hero" layout="responsive" width={950} height={1200}/>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+
+        {/*Info*/}
+        <div className="container mt-20">
+          <div className="grid md:grid-cols-4 md:justify-items-center gap-5">
+            <InfoCard icon={IconPackage} text="Free shipping nationwide"/>
+            <InfoCard icon={IconTimeDuration30} text="30 days to return"/>
+            <InfoCard icon={IconPlant2} text="100% natural"/>
+            <InfoCard icon={IconShieldHalfFilled} text="Secure payment"/>  
+          </div>
+        </div>
+
+        {/*Collections*/}
+        <div className="container mt-20">
+          <Collection title="Collections" collections={collections} />
+        </div>
+
+        {/*Top Salling*/}
+        <div className="container mt-20">
+          <ListProduct title="Top Selling" products={bestProducts}/>
+        </div>
+
+        {/*Banner*/}
+        <div className="container mt-20">
+          <h1 className="text-secondary text-3xl font-bold text-center">WHY CHOOSE US</h1>
+          <div className="grid md:grid-cols-2 gap-5 mt-10">
+            <div>
+              <Image className="rounded-lg" src="/assets/seedling.jpg" alt="seedling" layout="responsive" width={1920} height={1280}/>
+            </div>
+            <div>
+              <BannerItem onClick={openDropdown} dropdown={dropdown} title="Variety of Plants" text="Here you will find a variety of plants, such as fruit trees, vegetables, orchids, bonsai, etc." index="variety"/>
+              <BannerItem onClick={openDropdown} dropdown={dropdown} title="Sustainability" text="We use sustainable practices, such as ecological packaging and organic farming." index="sustainability"/>
+              <BannerItem onClick={openDropdown} dropdown={dropdown} title="Quality" text="High quality plants, we cultivate from germination, using organic products." index="quality"/>
+              <BannerItem onClick={openDropdown} dropdown={dropdown} title="Competitive Prices" text="We offer affordable prices without compromising on quality." index="price"/>
+            </div>
+          </div>
+        </div>
+
+        {/*New Product*/}
+        <div className="container mt-20">
+          <ListProduct title="New Products" products={newProducts}/>
+        </div>
+
+        {/*New Product*/}
+        <div className="container mt-20">
+          <ListProduct title="New Products" products={newProducts}/>
+        </div>
+
+        {/*Notification **modify later */}
+        <div className="container mt-20">
+          <div className="flex flex-col items-center gap-5 text-white rounded-xl bg-primary/60 p-5">
+            <h1 className="text-xl font-bold text-center">Receive notifications with our latest offers</h1>
+            <div className="flex flex-col md:flex-row gap-5">
+              <input className="rounded-sm p-2 text-black" type="email" placeholder="example@example.com"/>
+              <button className="p-2 bg-primary rounded-xl">Subscribe</button>
+            </div>
+          </div>
+        </div>
+
+        {/*Plant care tips **modify later */}
+        <div className="container mt-20">
+          <div className="grid md:grid-cols-2 bg-[#ECECEC] rounded-xl">
+            <div>
+              <Image className="rounded-xl max-h-[300px] max-w-[400px]" src="/assets/bg.png" alt="Background Plant" layout="responsive" width={400} height={300} />
+            </div>
+            <div className="p-10 space-y-5">
+              <h1 className="text-2xl font-bold text-primary text-center md:text-left">Plant Care Tips</h1>
+              <div className="space-y-1 text-zinc-700">
+                {care.map((text, index) => (
+                  <p key={index}>- {text}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </Layout>
+
+  )
+
 }
